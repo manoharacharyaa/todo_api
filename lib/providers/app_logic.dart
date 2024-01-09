@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class AppLogic extends ChangeNotifier {
   bool isLoading = false;
+  bool isCompleted = false;
 
   bool loading() {
     isLoading = !isLoading;

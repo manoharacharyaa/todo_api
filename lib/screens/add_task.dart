@@ -19,6 +19,7 @@ class AddTaskScreen extends StatefulWidget {
 class _AddTaskScreenState extends State<AddTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
+
   bool isEdit = false;
 
   @override
@@ -141,6 +142,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 });
               },
             ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

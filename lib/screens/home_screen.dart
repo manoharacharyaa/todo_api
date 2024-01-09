@@ -99,50 +99,66 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index) {
                 final item = items[index] as Map;
                 final id = item['_id'] as String;
-                return Card(
-                  color: const Color.fromARGB(133, 51, 78, 234),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                return Dismissible(
+                  key: ValueKey(items[index]),
+                  onDismissed: (direction) {
+                    deleteById(id);
+                  },
+                  background: Container(
+                    color: const Color.fromARGB(255, 0, 233, 39),
+                    child: const Icon(
+                      Icons.check_circle_outlined,
+                      size: 40,
+                    ),
                   ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.indigoAccent,
-                      child: Text(
-                        '${index + 1}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                  child: Card(
+                    color: const Color.fromARGB(133, 51, 78, 234),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        navigateToEditPage(item);
+                      },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.indigoAccent,
+                          child: Text(
+                            '${index + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        title: Text(item['title']),
+                        subtitle: Text(item['description']),
+                        trailing: PopupMenuButton(
+                          onSelected: (value) {
+                            if (value == Value.edit) {
+                              navigateToEditPage(item);
+                            } else if (value == Value.delete) {
+                              deleteById(id);
+                            }
+                          },
+                          color: const Color.fromARGB(255, 55, 81, 223),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          itemBuilder: (context) {
+                            return [
+                              const PopupMenuItem(
+                                child: Text('Edit'),
+                                value: Value.edit,
+                              ),
+                              const PopupMenuItem(
+                                child: Text('Delete'),
+                                value: Value.delete,
+                              ),
+                            ];
+                          },
                         ),
                       ),
-                    ),
-                    title: Text(item['title']),
-                    subtitle: Text(item['description']),
-                    trailing: PopupMenuButton(
-                      onSelected: (value) {
-                        if (value == Value.edit) {
-                          navigateToEditPage(item);
-                        } else if (value == Value.delete) {
-                          deleteById(id);
-                        } else if (value == Value.isCompleted) {
-                          
-                        }
-                      },
-                      color: const Color.fromARGB(255, 55, 81, 223),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      itemBuilder: (context) {
-                        return [
-                          const PopupMenuItem(
-                            child: Text('Edit'),
-                            value: Value.edit,
-                          ),
-                          const PopupMenuItem(
-                            child: Text('Delete'),
-                            value: Value.delete,
-                          ),
-                        ];
-                      },
                     ),
                   ),
                 );
